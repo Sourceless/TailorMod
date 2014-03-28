@@ -1,0 +1,91 @@
+package TailorMod;
+
+import TailorModArmor.ItemKeikogiBandana;
+import TailorModArmor.ItemKeikogiJacket;
+import TailorModArmor.ItemKeikogiLeggings;
+import TailorModArmor.ItemKeikogiSandals;
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.EnumArmorMaterial;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.src.ModLoader;
+import net.minecraftforge.common.EnumHelper;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
+
+//Basic Mod Setup
+@Mod (modid = "Tailor.Mod", name = "Tailor Mod", version = "v0.1")
+
+//Define Client and Server Requirements
+@NetworkMod (clientSideRequired = true, serverSideRequired = false)
+
+public class TailorMain {
+	
+	public static final String modid = "Tailor Mod";
+	
+	@SidedProxy(clientSide = "TailorMod.ClientProxy", serverSide = "TailorMod.ServerProxy")
+public static ServerProxy proxy;
+	//Items
+	public static Item clothItem;
+	
+	//Armors
+	public static Item KeikogiBandana;
+	public static Item KeikogiJacket;
+	public static Item KeikogiLeggings;
+	public static Item KeikogiSandals;
+	
+	//Define Armor Material
+	public static EnumArmorMaterial clothArmor = EnumHelper.addArmorMaterial("Cloth", 5, new int[]{1, 3, 2, 1}, 15);
+	
+	//Creative Tab
+	public static CreativeTabs TailorMod;
+	
+@EventHandler
+public void
+Load(FMLInitializationEvent Event){
+
+	//Setting for cloth
+	clothItem = new clothItem(5001).setUnlocalizedName("Cloth");
+	LanguageRegistry.addName(clothItem, "Cloth");
+	
+	//Setting for Armors
+	KeikogiBandana = new ItemKeikogiBandana(1020, clothArmor, ModLoader.addArmor("keiogi"), 0).setUnlocalizedName("keikogiBandana").setCreativeTab(CreativeTabs.tabCombat);
+	LanguageRegistry.addName(KeikogiBandana, "Keikogi Bandna");
+	KeikogiJacket = new ItemKeikogiJacket(1021, clothArmor, ModLoader.addArmor("keikogi"), 1).setUnlocalizedName("keikogiJacket").setCreativeTab(CreativeTabs.tabCombat);
+	LanguageRegistry.addName(KeikogiJacket, "Keikogi Jacket");
+	KeikogiLeggings = new ItemKeikogiLeggings(1022, clothArmor, ModLoader.addArmor("keikogi"), 2).setUnlocalizedName("keikogiLeggings").setCreativeTab(CreativeTabs.tabCombat);
+	LanguageRegistry.addName(KeikogiLeggings, "Keikogi Leggings");
+	KeikogiSandals = new ItemKeikogiSandals(1023, clothArmor, ModLoader.addArmor("keikogi"), 3).setUnlocalizedName("keikogiSandlas").setCreativeTab(CreativeTabs.tabCombat);
+	LanguageRegistry.addName(KeikogiSandals, "Keikogi Sandals");
+	
+	//Setting for Tab
+	
+	// Item registry
+	GameRegistry.registerItem(clothItem,"Cloth");
+	
+	//Armor registry
+	GameRegistry.registerItem(KeikogiBandana,"KeikogiBandna");
+	GameRegistry.registerItem(KeikogiJacket,"KeikogiJacket");
+	GameRegistry.registerItem(KeikogiLeggings,"KeikogiLeggings");
+	GameRegistry.registerItem(KeikogiSandals,"KeikogiSandals");
+	
+	//Item Recipes
+	GameRegistry.addRecipe(new ItemStack(clothItem, 4), new Object[]{"C", 'C', Block.cloth });
+	
+	//Armor Recipes
+	GameRegistry.addRecipe(new ItemStack(KeikogiBandana), new Object[]{"CCC", "C C", 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(KeikogiJacket), new Object[]{"C C", "CCC", "CCC", 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(KeikogiLeggings), new Object[]{"CCC", "C C", "C C", 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(KeikogiSandals), new Object[]{"C C", "C C", 'C', clothItem});
+	
+	
+};
+	}
+
