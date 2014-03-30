@@ -1,0 +1,19 @@
+package TailorModTabs;
+
+import TailorMod.TailorMain;
+import net.minecraft.creativetab.CreativeTabs;
+
+public class CreativeTailorTab extends CreativeTabs {
+
+	public CreativeTailorTab(int par1, String par2Str) {
+		super(par1, par2Str);
+	}
+	public int getTabIconItemIndex()
+	{
+		return TailorMain.KeikogiJacket.itemID;
+	}
+	public String getTranslatedTabLabel()
+	{
+		return "Tailor Mod ";
+	}
+}
