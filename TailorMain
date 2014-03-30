@@ -1,9 +1,22 @@
 package TailorMod;
 
+import TailorModArmor.ItemBankBoots;
+import TailorModArmor.ItemBankBowler;
+import TailorModArmor.ItemBankChest;
+import TailorModArmor.ItemBankLegs;
 import TailorModArmor.ItemKeikogiBandana;
 import TailorModArmor.ItemKeikogiJacket;
 import TailorModArmor.ItemKeikogiLeggings;
 import TailorModArmor.ItemKeikogiSandals;
+import TailorModArmor.ItemMetalBoots;
+import TailorModArmor.ItemMetalChest;
+import TailorModArmor.ItemMetalHelmet;
+import TailorModArmor.ItemMetalLegs;
+import TailorModArmor.ItemWesternCoat;
+import TailorModArmor.ItemWesternHat;
+import TailorModArmor.ItemWesternLegs;
+import TailorModArmor.ItemWesternsBoots;
+import TailorModTabs.CreativeTailorTab;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumArmorMaterial;
@@ -32,6 +45,10 @@ public class TailorMain {
 	
 	@SidedProxy(clientSide = "TailorMod.ClientProxy", serverSide = "TailorMod.ServerProxy")
 public static ServerProxy proxy;
+	
+	//Creative Tabs
+	public static CreativeTabs TailorTab = new CreativeTailorTab(CreativeTabs.getNextID(), "TailorMod");
+	
 	//Items
 	public static Item clothItem;
 	
@@ -40,33 +57,68 @@ public static ServerProxy proxy;
 	public static Item KeikogiJacket;
 	public static Item KeikogiLeggings;
 	public static Item KeikogiSandals;
+	public static Item MetalHelmet;
+	public static Item MetalChest;
+	public static Item MetalLegs;
+	public static Item MetalBoots;
+	public static Item BankBowler;
+	public static Item BankChest;
+	public static Item BankLegs;
+	public static Item BankBoots;
+	public static Item WesternHat;
+	public static Item WesternCoat;
+	public static Item WesternLegs;
+	public static Item WesternBoots;
 	
 	//Define Armor Material
 	public static EnumArmorMaterial clothArmor = EnumHelper.addArmorMaterial("Cloth", 5, new int[]{1, 3, 2, 1}, 15);
 	
-	//Creative Tab
-	public static CreativeTabs TailorMod;
 	
 @EventHandler
 public void
-Load(FMLInitializationEvent Event){
-
+Load(FMLPreInitializationEvent Event){
+	proxy.registerRenderThings();
+	proxy.registerServerTickHandler();
+	
 	//Setting for cloth
-	clothItem = new clothItem(5001).setUnlocalizedName("Cloth");
+	clothItem = new clothItem(5001).setUnlocalizedName("Cloth").setCreativeTab(this.TailorTab);
 	LanguageRegistry.addName(clothItem, "Cloth");
 	
 	//Setting for Armors
-	KeikogiBandana = new ItemKeikogiBandana(1020, clothArmor, ModLoader.addArmor("keiogi"), 0).setUnlocalizedName("keikogiBandana").setCreativeTab(CreativeTabs.tabCombat);
+	int renderclothArmor = proxy.addArmor("clothes");
+	
+	KeikogiBandana = new ItemKeikogiBandana(1020, clothArmor, renderclothArmor, 0).setUnlocalizedName("keikogiBandana").setCreativeTab(this.TailorTab);
 	LanguageRegistry.addName(KeikogiBandana, "Keikogi Bandna");
-	KeikogiJacket = new ItemKeikogiJacket(1021, clothArmor, ModLoader.addArmor("keikogi"), 1).setUnlocalizedName("keikogiJacket").setCreativeTab(CreativeTabs.tabCombat);
+	KeikogiJacket = new ItemKeikogiJacket(1021, clothArmor, renderclothArmor, 1).setUnlocalizedName("keikogiJacket").setCreativeTab(this.TailorTab);
 	LanguageRegistry.addName(KeikogiJacket, "Keikogi Jacket");
-	KeikogiLeggings = new ItemKeikogiLeggings(1022, clothArmor, ModLoader.addArmor("keikogi"), 2).setUnlocalizedName("keikogiLeggings").setCreativeTab(CreativeTabs.tabCombat);
+	KeikogiLeggings = new ItemKeikogiLeggings(1022, clothArmor, renderclothArmor, 2).setUnlocalizedName("keikogiLeggings").setCreativeTab(this.TailorTab);
 	LanguageRegistry.addName(KeikogiLeggings, "Keikogi Leggings");
-	KeikogiSandals = new ItemKeikogiSandals(1023, clothArmor, ModLoader.addArmor("keikogi"), 3).setUnlocalizedName("keikogiSandlas").setCreativeTab(CreativeTabs.tabCombat);
+	KeikogiSandals = new ItemKeikogiSandals(1023, clothArmor, renderclothArmor, 3).setUnlocalizedName("keikogiSandlas").setCreativeTab(this.TailorTab);
 	LanguageRegistry.addName(KeikogiSandals, "Keikogi Sandals");
-	
-	//Setting for Tab
-	
+	MetalHelmet = new ItemMetalHelmet(1024, clothArmor, renderclothArmor, 0).setUnlocalizedName("metalHelmet").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(MetalHelmet, "Metal Helmet");
+	MetalChest = new ItemMetalChest(1025, clothArmor, renderclothArmor, 1).setUnlocalizedName("metalChest").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(MetalChest, "Metal Chestplate");
+	MetalLegs = new ItemMetalLegs(1026, clothArmor, renderclothArmor, 2).setUnlocalizedName("metalLegs").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(MetalLegs, "Metal Leggings");
+	MetalBoots = new ItemMetalBoots(1027, clothArmor, renderclothArmor, 3).setUnlocalizedName("metalBoots").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(MetalBoots, "Metal Boots");
+	BankBowler = new ItemBankBowler(1028, clothArmor, renderclothArmor, 0).setUnlocalizedName("bankBowler").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(BankBowler, "Bowler");
+	BankChest = new ItemBankChest(1029, clothArmor, renderclothArmor, 1).setUnlocalizedName("bankChest").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(BankChest, "Tail-coat");
+	BankLegs = new ItemBankLegs(1030, clothArmor, renderclothArmor, 2).setUnlocalizedName("bankLegs").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(BankLegs, "Elegant Pants");
+	BankBoots = new ItemBankBoots(1031, clothArmor, renderclothArmor, 3).setUnlocalizedName("bankBoots").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(BankBoots, "Polished Boots");
+	WesternHat = new ItemWesternHat(1032, clothArmor, renderclothArmor, 0).setUnlocalizedName("westernHat").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(WesternHat, "Stetson");
+	WesternCoat = new ItemWesternCoat(1033, clothArmor, renderclothArmor, 1).setUnlocalizedName("westernCoat").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(WesternCoat, "Duster");
+	WesternLegs = new ItemWesternLegs(1034, clothArmor, renderclothArmor, 2).setUnlocalizedName("westernLegs").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(WesternLegs, "Lether Covers");
+	WesternBoots = new ItemWesternsBoots(1035, clothArmor, renderclothArmor, 3).setUnlocalizedName("westernBoots").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(WesternBoots, "Boots");
 	// Item registry
 	GameRegistry.registerItem(clothItem,"Cloth");
 	
@@ -75,6 +127,18 @@ Load(FMLInitializationEvent Event){
 	GameRegistry.registerItem(KeikogiJacket,"KeikogiJacket");
 	GameRegistry.registerItem(KeikogiLeggings,"KeikogiLeggings");
 	GameRegistry.registerItem(KeikogiSandals,"KeikogiSandals");
+	GameRegistry.registerItem(MetalHelmet,"MetalHelmet");
+	GameRegistry.registerItem(MetalChest,"MetalChest");
+	GameRegistry.registerItem(MetalLegs,"MetalLegs");
+	GameRegistry.registerItem(MetalBoots,"MetalBoots");
+	GameRegistry.registerItem(BankBowler,"BankBowler");
+	GameRegistry.registerItem(BankChest,"BankChest");
+	GameRegistry.registerItem(BankLegs,"BankLegs");
+	GameRegistry.registerItem(BankBoots,"BankBoots");
+	GameRegistry.registerItem(WesternHat,"WesternHat");
+	GameRegistry.registerItem(WesternCoat,"WesternCoat");
+	GameRegistry.registerItem(WesternLegs,"WesternLegs");
+	GameRegistry.registerItem(WesternBoots,"WesternBoots");
 	
 	//Item Recipes
 	GameRegistry.addRecipe(new ItemStack(clothItem, 4), new Object[]{"C", 'C', Block.cloth });
@@ -84,8 +148,19 @@ Load(FMLInitializationEvent Event){
 	GameRegistry.addRecipe(new ItemStack(KeikogiJacket), new Object[]{"C C", "CCC", "CCC", 'C', clothItem});
 	GameRegistry.addRecipe(new ItemStack(KeikogiLeggings), new Object[]{"CCC", "C C", "C C", 'C', clothItem});
 	GameRegistry.addRecipe(new ItemStack(KeikogiSandals), new Object[]{"C C", "C C", 'C', clothItem});
-	
-	
+	GameRegistry.addRecipe(new ItemStack(MetalHelmet), new Object[]{"III", "C C",'I',Item.ingotIron, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(MetalChest), new Object[]{"I I", "CIC","CCC", 'I',Item.ingotIron, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(MetalLegs), new Object[]{"III", "C C","C C", 'I',Item.ingotIron, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(MetalBoots), new Object[]{"C C", "I I", 'I',Item.ingotIron, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(BankBowler), new Object[]{"CCC", "G G", 'G',Item.ingotGold, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(BankChest), new Object[]{"G G", "CGC","CCC", 'G',Item.ingotGold, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(BankLegs), new Object[]{"CGC", "C C","C C", 'G',Item.ingotGold, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(BankBoots), new Object[]{"C C", "G G", 'G',Item.ingotGold, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(WesternHat), new Object[]{"CCC", "L L", 'L',Item.leather, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(WesternCoat), new Object[]{"L L", "CLC","CCC", 'L',Item.leather, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(WesternLegs), new Object[]{"CLC", "C C","C C", 'L',Item.leather, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(WesternBoots), new Object[]{"C C", "L L", 'L',Item.leather, 'C', clothItem});
+
 };
 	}
 
