@@ -1,24 +1,20 @@
 package TailorMod;
 
-import TailorModArmor.ItemBankBoots;
-import TailorModArmor.ItemBankBowler;
-import TailorModArmor.ItemBankChest;
-import TailorModArmor.ItemBankLegs;
-import TailorModArmor.ItemKeikogiBandana;
-import TailorModArmor.ItemKeikogiJacket;
-import TailorModArmor.ItemKeikogiLeggings;
-import TailorModArmor.ItemKeikogiSandals;
-import TailorModArmor.ItemMetalBoots;
-import TailorModArmor.ItemMetalChest;
-import TailorModArmor.ItemMetalHelmet;
-import TailorModArmor.ItemMetalLegs;
-import TailorModArmor.ItemWesternCoat;
-import TailorModArmor.ItemWesternHat;
-import TailorModArmor.ItemWesternLegs;
-import TailorModArmor.ItemWesternsBoots;
+import TailorModArmor.*;
+import TailorModItems.clothItem;
+import TailorModItems.clothStrip;
+import TailorModItems.leatherStrip;
+import TailorModItems.reinforcedCloth;
+import TailorModItems.thickCloth;
+import TailorModItems.upholster;
+import TailorModTabs.CreativeFantasyTab;
+import TailorModTabs.CreativeJapaniseTab;
+import TailorModTabs.CreativeModernTab;
 import TailorModTabs.CreativeTailorTab;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,9 +28,11 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 //Basic Mod Setup
-@Mod (modid = "Tailor.Mod", name = "Tailor Mod", version = "v0.1")
+@Mod (modid = "Tailor.Mod", name = "Tailor Mod", version = "v0.4")
 
 //Define Client and Server Requirements
 @NetworkMod (clientSideRequired = true, serverSideRequired = false)
@@ -48,27 +46,162 @@ public static ServerProxy proxy;
 	
 	//Creative Tabs
 	public static CreativeTabs TailorTab = new CreativeTailorTab(CreativeTabs.getNextID(), "TailorMod");
+	public static CreativeTabs JapanieseTab = new CreativeJapaniseTab(CreativeTabs.getNextID(), "JapaniseTab");
+	public static CreativeTabs FantasyTab = new CreativeFantasyTab(CreativeTabs.getNextID(), "FantasyTab");
+	public static CreativeTabs ModernTab = new CreativeModernTab(CreativeTabs.getNextID(), "ModernTab");
 	
 	//Items
 	public static Item clothItem;
+	public static Item thickCloth;
+	public static Item upholster;
+	public static Item reinforcedCloth;
+	public static Item clothStrip;
+	public static Item leatherStrip;
 	
 	//Armors
+		//Keikogi
 	public static Item KeikogiBandana;
 	public static Item KeikogiJacket;
 	public static Item KeikogiLeggings;
 	public static Item KeikogiSandals;
+		//Metal
 	public static Item MetalHelmet;
 	public static Item MetalChest;
 	public static Item MetalLegs;
 	public static Item MetalBoots;
+		//Bank
 	public static Item BankBowler;
 	public static Item BankChest;
 	public static Item BankLegs;
 	public static Item BankBoots;
+		//Western
 	public static Item WesternHat;
 	public static Item WesternCoat;
 	public static Item WesternLegs;
 	public static Item WesternBoots;
+		//Miner
+	public static Item MinerHelmet;
+	public static Item MinerChest;
+	public static Item MinerLegs;
+	public static Item MinerBoots;
+		//Crown
+	public static Item Crown;
+		//Guran
+	public static Item GuranBandana;
+	public static Item GuranChest;
+	public static Item GuranBoots;
+		//Buou
+	public static Item BuouHead;
+	public static Item BuouChest;
+	public static Item BuouLegs;
+	public static Item BuouBoots;
+		//Hagane
+	public static Item HagneHelmet;
+	public static Item HagneChest;
+	public static Item HagneLegs;
+	public static Item HagneBoots;
+		//Abunai
+	public static Item AbunaiBra;
+	public static Item AbunaiPants;
+		//Bani
+	public static Item BaniHead;
+	public static Item BaniChest;
+	public static Item BaniPants;
+	public static Item BaniBoots;
+		//Star
+	public static Item StarHat;
+	public static Item StarChest;
+	public static Item StarLegs;
+	public static Item StarBoots;
+		//Budou
+	public static Item BudouHead;
+	public static Item BudouChest;
+	public static Item BudouLegs;
+	public static Item BudouBoots;
+		//Busin
+	public static Item BusinHead;
+	public static Item BusinChest;
+	public static Item BusinBoots;
+		//Dansa
+	public static Item DansaHead;
+	public static Item DansaChest;
+	public static Item DansaLegs;
+	public static Item DansaBoots;
+		//Kinobusi
+	public static Item KinoBousi;
+		//Kawa
+	public static Item KawaHead;
+	public static Item KawaChest;
+	public static Item KawaLegs;
+	public static Item KawaBoots;
+		//Tenku
+	public static Item TenkuHead;
+	public static Item TenkuChest;
+	public static Item TenkuLegs;
+	public static Item TenkuBoots;
+		//Puratina
+	public static Item PuratinaHead;
+	public static Item PuratinaChest;
+	public static Item PuratinaLegs;
+	public static Item PuratinaBoots;
+		//Old
+	public static Item OldHead;
+	public static Item OldChest;
+	public static Item OldLegs;
+	public static Item OldBoots;
+		//Sensi
+	public static Item SensiHead;
+	public static Item SensiChest;
+	public static Item SensiLegs;
+	public static Item SensiBoots;
+		//Odoriko
+	public static Item OdorikoHead;
+	public static Item OdorikoChest;
+	public static Item OdorikoLegs;
+	public static Item OdorikoBoots;
+		//Kenpou
+	public static Item KenpouHead;
+	public static Item KenpouChest;
+	public static Item KenpouBoots;
+		//Neko
+	public static Item Neko;
+		//Fantom
+	public static Item Fantom;
+		//Cowboy
+	public static Item CowboyHead;
+	public static Item CowboyChest;
+	public static Item CowboyLegs;
+	public static Item CowboyBoots;
+		//Diamodo
+	public static Item DiamodoHead;
+	public static Item DiamodoChest;
+	public static Item DiamodoLegs;
+	public static Item DiamodoBoots;
+		//Roresia
+	public static Item RoresiaHead;
+	public static Item RoresiaChest;
+	public static Item RoresiaLegs;
+	public static Item RoresiaBoots;
+		//DragonArmor
+	public static Item DragonArmor;
+		//DragonRobe
+	public static Item DragonRobe;
+		//Fusigi
+	public static Item Fusigi;
+		//Honoo
+	public static Item Honoo;
+		//Sinkan
+	public static Item SinkaHead;
+	public static Item SinkaChest;
+	public static Item SinkaBoots;
+		//Clown
+	public static Item ClownHead;
+	public static Item ClownBoots;
+		//Seija
+	public static Item SeijiaHead;
+	public static Item SeijiaChest;
+	public static Item SeijiaLegs;
+	public static Item SeijiaBoots;
 	
 	//Define Armor Material
 	public static EnumArmorMaterial clothArmor = EnumHelper.addArmorMaterial("Cloth", 5, new int[]{1, 3, 2, 1}, 15);
@@ -83,84 +216,567 @@ Load(FMLPreInitializationEvent Event){
 	//Setting for cloth
 	clothItem = new clothItem(5001).setUnlocalizedName("Cloth").setCreativeTab(this.TailorTab);
 	LanguageRegistry.addName(clothItem, "Cloth");
+	thickCloth = new thickCloth(5002).setUnlocalizedName("ThickCloth").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(thickCloth, "Thick Cloth");
+	upholster = new upholster(5003).setUnlocalizedName("upholster").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(upholster, "Leather Padding");
+	reinforcedCloth = new reinforcedCloth(5004).setUnlocalizedName("reinforcedCloth").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(reinforcedCloth, "Reinforced Cloth");
+	clothStrip = new clothStrip(5005).setUnlocalizedName("clothStrip").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(clothStrip, "Cloth Strip");
+	leatherStrip = new leatherStrip(5006).setUnlocalizedName("leatherStrip").setCreativeTab(this.TailorTab);
+	LanguageRegistry.addName(leatherStrip, "Leather Strip");
 	
 	//Setting for Armors
 	int renderclothArmor = proxy.addArmor("clothes");
-	
-	KeikogiBandana = new ItemKeikogiBandana(1020, clothArmor, renderclothArmor, 0).setUnlocalizedName("keikogiBandana").setCreativeTab(this.TailorTab);
+		//Keikogi
+	KeikogiBandana = new ItemKeikogiBandana(1020, clothArmor, renderclothArmor, 0).setUnlocalizedName("keikogiBandana").setCreativeTab(this.JapanieseTab);
 	LanguageRegistry.addName(KeikogiBandana, "Keikogi Bandna");
-	KeikogiJacket = new ItemKeikogiJacket(1021, clothArmor, renderclothArmor, 1).setUnlocalizedName("keikogiJacket").setCreativeTab(this.TailorTab);
+	KeikogiJacket = new ItemKeikogiJacket(1021, clothArmor, renderclothArmor, 1).setUnlocalizedName("keikogiJacket").setCreativeTab(this.JapanieseTab);
 	LanguageRegistry.addName(KeikogiJacket, "Keikogi Jacket");
-	KeikogiLeggings = new ItemKeikogiLeggings(1022, clothArmor, renderclothArmor, 2).setUnlocalizedName("keikogiLeggings").setCreativeTab(this.TailorTab);
+	KeikogiLeggings = new ItemKeikogiLeggings(1022, clothArmor, renderclothArmor, 2).setUnlocalizedName("keikogiLeggings").setCreativeTab(this.JapanieseTab);
 	LanguageRegistry.addName(KeikogiLeggings, "Keikogi Leggings");
-	KeikogiSandals = new ItemKeikogiSandals(1023, clothArmor, renderclothArmor, 3).setUnlocalizedName("keikogiSandlas").setCreativeTab(this.TailorTab);
+	KeikogiSandals = new ItemKeikogiSandals(1023, clothArmor, renderclothArmor, 3).setUnlocalizedName("keikogiSandlas").setCreativeTab(this.JapanieseTab);
 	LanguageRegistry.addName(KeikogiSandals, "Keikogi Sandals");
-	MetalHelmet = new ItemMetalHelmet(1024, clothArmor, renderclothArmor, 0).setUnlocalizedName("metalHelmet").setCreativeTab(this.TailorTab);
+		//Metal
+	MetalHelmet = new ItemMetalHelmet(1024, clothArmor, renderclothArmor, 0).setUnlocalizedName("metalHelmet").setCreativeTab(this.FantasyTab);
 	LanguageRegistry.addName(MetalHelmet, "Metal Helmet");
-	MetalChest = new ItemMetalChest(1025, clothArmor, renderclothArmor, 1).setUnlocalizedName("metalChest").setCreativeTab(this.TailorTab);
+	MetalChest = new ItemMetalChest(1025, clothArmor, renderclothArmor, 1).setUnlocalizedName("metalChest").setCreativeTab(this.FantasyTab);
 	LanguageRegistry.addName(MetalChest, "Metal Chestplate");
-	MetalLegs = new ItemMetalLegs(1026, clothArmor, renderclothArmor, 2).setUnlocalizedName("metalLegs").setCreativeTab(this.TailorTab);
+	MetalLegs = new ItemMetalLegs(1026, clothArmor, renderclothArmor, 2).setUnlocalizedName("metalLegs").setCreativeTab(this.FantasyTab);
 	LanguageRegistry.addName(MetalLegs, "Metal Leggings");
-	MetalBoots = new ItemMetalBoots(1027, clothArmor, renderclothArmor, 3).setUnlocalizedName("metalBoots").setCreativeTab(this.TailorTab);
+	MetalBoots = new ItemMetalBoots(1027, clothArmor, renderclothArmor, 3).setUnlocalizedName("metalBoots").setCreativeTab(this.FantasyTab);
 	LanguageRegistry.addName(MetalBoots, "Metal Boots");
-	BankBowler = new ItemBankBowler(1028, clothArmor, renderclothArmor, 0).setUnlocalizedName("bankBowler").setCreativeTab(this.TailorTab);
+		//Bank
+	BankBowler = new ItemBankBowler(1028, clothArmor, renderclothArmor, 0).setUnlocalizedName("bankBowler").setCreativeTab(this.ModernTab);
 	LanguageRegistry.addName(BankBowler, "Bowler");
-	BankChest = new ItemBankChest(1029, clothArmor, renderclothArmor, 1).setUnlocalizedName("bankChest").setCreativeTab(this.TailorTab);
+	BankChest = new ItemBankChest(1029, clothArmor, renderclothArmor, 1).setUnlocalizedName("bankChest").setCreativeTab(this.ModernTab);
 	LanguageRegistry.addName(BankChest, "Tail-coat");
-	BankLegs = new ItemBankLegs(1030, clothArmor, renderclothArmor, 2).setUnlocalizedName("bankLegs").setCreativeTab(this.TailorTab);
+	BankLegs = new ItemBankLegs(1030, clothArmor, renderclothArmor, 2).setUnlocalizedName("bankLegs").setCreativeTab(this.ModernTab);
 	LanguageRegistry.addName(BankLegs, "Elegant Pants");
-	BankBoots = new ItemBankBoots(1031, clothArmor, renderclothArmor, 3).setUnlocalizedName("bankBoots").setCreativeTab(this.TailorTab);
+	BankBoots = new ItemBankBoots(1031, clothArmor, renderclothArmor, 3).setUnlocalizedName("bankBoots").setCreativeTab(this.ModernTab);
 	LanguageRegistry.addName(BankBoots, "Polished Boots");
-	WesternHat = new ItemWesternHat(1032, clothArmor, renderclothArmor, 0).setUnlocalizedName("westernHat").setCreativeTab(this.TailorTab);
+		//Western
+	WesternHat = new ItemWesternHat(1032, clothArmor, renderclothArmor, 0).setUnlocalizedName("westernHat").setCreativeTab(this.ModernTab);
 	LanguageRegistry.addName(WesternHat, "Stetson");
-	WesternCoat = new ItemWesternCoat(1033, clothArmor, renderclothArmor, 1).setUnlocalizedName("westernCoat").setCreativeTab(this.TailorTab);
+	WesternCoat = new ItemWesternCoat(1033, clothArmor, renderclothArmor, 1).setUnlocalizedName("westernCoat").setCreativeTab(this.ModernTab);
 	LanguageRegistry.addName(WesternCoat, "Duster");
-	WesternLegs = new ItemWesternLegs(1034, clothArmor, renderclothArmor, 2).setUnlocalizedName("westernLegs").setCreativeTab(this.TailorTab);
+	WesternLegs = new ItemWesternLegs(1034, clothArmor, renderclothArmor, 2).setUnlocalizedName("westernLegs").setCreativeTab(this.ModernTab);
 	LanguageRegistry.addName(WesternLegs, "Lether Covers");
-	WesternBoots = new ItemWesternsBoots(1035, clothArmor, renderclothArmor, 3).setUnlocalizedName("westernBoots").setCreativeTab(this.TailorTab);
+	WesternBoots = new ItemWesternsBoots(1035, clothArmor, renderclothArmor, 3).setUnlocalizedName("westernBoots").setCreativeTab(this.ModernTab);
 	LanguageRegistry.addName(WesternBoots, "Boots");
+		//Miner
+	MinerHelmet = new ItemMinerHelmet(1036, clothArmor, renderclothArmor, 0).setUnlocalizedName("minerHelmet").setCreativeTab(this.ModernTab);
+	LanguageRegistry.addName(MinerHelmet, "Miner Helmet");
+	MinerChest = new ItemMinerChest(1037, clothArmor, renderclothArmor, 1).setUnlocalizedName("minerChest").setCreativeTab(this.ModernTab);
+	LanguageRegistry.addName(MinerChest, "Miner Utility Belt");
+	MinerLegs = new ItemMinerLegs(1038, clothArmor, renderclothArmor, 2).setUnlocalizedName("minerLegs").setCreativeTab(this.ModernTab);
+	LanguageRegistry.addName(MinerLegs, "Miner Pants");
+	MinerBoots = new ItemMinerBoots(1039, clothArmor, renderclothArmor, 3).setUnlocalizedName("minerBoots").setCreativeTab(this.ModernTab);
+	LanguageRegistry.addName(MinerBoots, "Miner Boots");
+		//Crown
+	Crown = new ItemCrown(1040, clothArmor, renderclothArmor, 0).setUnlocalizedName("Crown").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(Crown, "Crown");
+		//Guran
+	GuranBandana = new ItemGuranBandana(1041, clothArmor, renderclothArmor, 0).setUnlocalizedName("GuranBandana").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(GuranBandana, "Guran Bandana");
+	GuranChest = new ItemGuranChest(1042, clothArmor, renderclothArmor, 1).setUnlocalizedName("GuranChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(GuranChest, "Guran Tunic");
+	GuranBoots = new ItemGuranBoots(1044, clothArmor, renderclothArmor, 3).setUnlocalizedName("GuranBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(GuranBoots, "Guran Boots");
+		//Buou
+	BuouHead = new ItemBuouHead(1045, clothArmor, renderclothArmor, 0).setUnlocalizedName("BuouHead").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BuouHead, "Buou Headband");
+	BuouChest = new ItemBuouChest(1046, clothArmor, renderclothArmor, 1).setUnlocalizedName("BuouChest").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BuouChest, "Buou Tunic");
+	BuouLegs = new ItemBuouLegs(1047, clothArmor, renderclothArmor, 2).setUnlocalizedName("BuouLegs").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BuouLegs, "Buou Pants");
+	BuouBoots = new ItemBuouBoots(1048, clothArmor, renderclothArmor, 3).setUnlocalizedName("BuouBoots").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BuouBoots, "Buou Boots");
+		//Hagane
+	HagneHelmet = new ItemHagneHelmet(1049, clothArmor, renderclothArmor, 0).setUnlocalizedName("HagneHelmet").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(HagneHelmet, "Hagane Helmet");
+	HagneChest = new ItemHagneChest(1050, clothArmor, renderclothArmor, 1).setUnlocalizedName("HagneChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(HagneChest, "Hagane Chestplate");
+	HagneLegs = new ItemHagneLegs(1051, clothArmor, renderclothArmor, 2).setUnlocalizedName("HagneLegs").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(HagneLegs, "Hagane Leggings");
+	HagneBoots = new ItemHagneBoots(1052, clothArmor, renderclothArmor, 3).setUnlocalizedName("HagneBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(HagneBoots, "Hagane Boots");
+		//Abunai
+	AbunaiBra = new ItemAbunaiBra(1053, clothArmor, renderclothArmor, 1).setUnlocalizedName("AbunaiBra").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(AbunaiBra, "Bra");
+	AbunaiPants = new ItemAbunaiPants(1054, clothArmor, renderclothArmor, 2).setUnlocalizedName("AbunaiPants").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(AbunaiPants, "Skirt");
+		//Bani
+	BaniHead = new ItemBaniHead(1055, clothArmor, renderclothArmor, 0).setUnlocalizedName("BaniHead").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BaniHead, "Bunny Ears");
+	BaniChest = new ItemBaniChest(1056, clothArmor, renderclothArmor, 1).setUnlocalizedName("BaniChest").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BaniChest, "Corset");
+	BaniPants = new ItemBaniPants(1057, clothArmor, renderclothArmor, 2).setUnlocalizedName("BaniPants").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BaniPants, "Underwear");
+	BaniBoots = new ItemBaniBoots(1058, clothArmor, renderclothArmor, 3).setUnlocalizedName("BaniBoots").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BaniBoots, "High Heels");
+		//Star
+	StarHat = new ItemStarHat(1059, clothArmor, renderclothArmor, 0).setUnlocalizedName("StarHat").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(StarHat, "Top Hat");
+	StarChest = new ItemStarChest(1060, clothArmor, renderclothArmor, 1).setUnlocalizedName("StarChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(StarChest, "Tail-coat");
+	StarLegs = new ItemStarLegs(1061, clothArmor, renderclothArmor, 2).setUnlocalizedName("StarLegs").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(StarLegs, "Show Pants");
+	StarBoots = new ItemStarBoots(1062, clothArmor, renderclothArmor, 3).setUnlocalizedName("StarBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(StarBoots, "Circus Boots");
+		//Budou
+	BudouHead = new ItemBudouHead(1063, clothArmor, renderclothArmor, 0).setUnlocalizedName("BudouHead").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BudouHead, "Budou Bandana");
+	BudouChest = new ItemBudouChest(1064, clothArmor, renderclothArmor, 1).setUnlocalizedName("BudouChest").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BudouChest, "Budou Jacket");
+	BudouLegs = new ItemBudouLegs(1065, clothArmor, renderclothArmor, 2).setUnlocalizedName("BudouLegs").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BudouLegs, "Budou");
+	BudouBoots = new ItemBudouBoots(1066, clothArmor, renderclothArmor, 3).setUnlocalizedName("BudouBoots").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BudouBoots, "Budou Boots");
+		//Busin
+	BusinHead = new ItemBusinHead(1067, clothArmor, renderclothArmor, 0).setUnlocalizedName("BusinHead").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BusinHead, "Busin Bandana");
+	BusinChest = new ItemBusinChest(1068, clothArmor, renderclothArmor, 1).setUnlocalizedName("BusinChest").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BusinChest, "Busin Jacket");
+	BusinBoots = new ItemBusinBoots(1069, clothArmor, renderclothArmor, 3).setUnlocalizedName("BusinBoots").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(BusinBoots, "Busin Boots");
+		//Dansa
+	DansaHead = new ItemDansaHead(1070, clothArmor, renderclothArmor, 0).setUnlocalizedName("DansaHead").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(DansaHead, "Headband with feather");
+	DansaChest = new ItemDansaChest(1071, clothArmor, renderclothArmor, 1).setUnlocalizedName("DansaChest").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(DansaChest, "Dansa Coat");
+	DansaLegs = new ItemDansaLegs(1072, clothArmor, renderclothArmor, 2).setUnlocalizedName("DansaLegs").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(DansaLegs, "Dansa Pants");
+	DansaBoots = new ItemDansaBoots(1073, clothArmor, renderclothArmor, 3).setUnlocalizedName("DansaBoots").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(DansaBoots, "Dansa Boots");
+		//Kinobusi
+	KinoBousi = new ItemKinoBousi(1074, clothArmor, renderclothArmor, 0).setUnlocalizedName("KinoBousi").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(KinoBousi, "Kinobousi");
+		//Kawa
+	KawaHead = new ItemKawaHead(1075, clothArmor, renderclothArmor, 0).setUnlocalizedName("KawaHead").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(KawaHead, "Leather Cap");
+	KawaChest = new ItemKawaChest(1076, clothArmor, renderclothArmor, 1).setUnlocalizedName("KawaChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(KawaChest, "Leather Tunic");
+	KawaLegs = new ItemKawaLegs(1077, clothArmor, renderclothArmor, 2).setUnlocalizedName("KawaLegs").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(KawaLegs, "Leather Knee-pads");
+	KawaBoots = new ItemKawaBoots(1078, clothArmor, renderclothArmor, 3).setUnlocalizedName("KawaBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(KawaBoots, "Leather Footgear");
+		//Tenku
+	TenkuHead = new ItemTenkuHead(1079, clothArmor, renderclothArmor, 0).setUnlocalizedName("TenkuHead").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(TenkuHead, "Shiny Diadem");
+	TenkuChest = new ItemTenkuChest(1080, clothArmor, renderclothArmor, 1).setUnlocalizedName("TenkuChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(TenkuChest, "Peasant Robes");
+	TenkuLegs = new ItemTenkuLegs(1081, clothArmor, renderclothArmor, 2).setUnlocalizedName("TenkuLegs").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(TenkuLegs, "Peasant Pants");
+	TenkuBoots = new ItemTenkuBoots(1082, clothArmor, renderclothArmor, 3).setUnlocalizedName("TenkuBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(TenkuBoots, "Peasant Boots");
+		//Puratina
+	PuratinaHead = new ItemPuratinaHead(1083, clothArmor, renderclothArmor, 0).setUnlocalizedName("PuratinaHead").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(PuratinaHead, "Paladin Helmet");
+	PuratinaChest = new ItemPuratinaChest(1084, clothArmor, renderclothArmor, 1).setUnlocalizedName("PuratinaChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(PuratinaChest, "Paladin Chestplate");
+	PuratinaLegs = new ItemPuratinaLegs(1085, clothArmor, renderclothArmor, 2).setUnlocalizedName("PuratinaLegs").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(PuratinaLegs, "Paladin Leggings");
+	PuratinaBoots = new ItemPuratinaBoots(1086, clothArmor, renderclothArmor, 3).setUnlocalizedName("PuratinaBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(PuratinaBoots, "Paladin Boots");
+		//Old
+	OldHead = new ItemOldHead(1087, clothArmor, renderclothArmor, 0).setUnlocalizedName("OldHead").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(OldHead, "Seasoned Helmet");
+	OldChest = new ItemOldChest(1088, clothArmor, renderclothArmor, 1).setUnlocalizedName("OldChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(OldChest, "Seasoned Chestplate");
+	OldLegs = new ItemOldLegs(1089, clothArmor, renderclothArmor, 2).setUnlocalizedName("OldLegs").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(OldLegs, "Seasoned Leggings");
+	OldBoots = new ItemOldBoots(1090, clothArmor, renderclothArmor, 3).setUnlocalizedName("OldBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(OldBoots, "Seasoned Boots");
+		//Sensi
+	SensiHead = new ItemSensiHead(1091, clothArmor, renderclothArmor, 0).setUnlocalizedName("SensiHead").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(SensiHead, "Town Guard Helmet");
+	SensiChest = new ItemSensiChest(1092, clothArmor, renderclothArmor, 1).setUnlocalizedName("SensiChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(SensiChest, "Town Guard Chestplate");
+	SensiLegs = new ItemSensiLegs(1093, clothArmor, renderclothArmor, 2).setUnlocalizedName("SensiLegs").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(SensiLegs, "Town Guard Leggings");
+	SensiBoots = new ItemSensiBoots(1094, clothArmor, renderclothArmor, 3).setUnlocalizedName("SensiBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(SensiBoots, "Town Guard Boots");
+		//Odoriko
+	OdorikoHead = new ItemOdorikoHead(1095, clothArmor, renderclothArmor, 0).setUnlocalizedName("OdorikoHead").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(OdorikoHead, "Odoriko Headgear");
+	OdorikoChest = new ItemOdorikoChest(1096, clothArmor, renderclothArmor, 1).setUnlocalizedName("OdorikoChest").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(OdorikoChest, "Odoriko Chestpiece");
+	OdorikoLegs = new ItemOdorikoLegs(1097, clothArmor, renderclothArmor, 2).setUnlocalizedName("OdorikoLegs").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(OdorikoLegs, "Odoriko Pants");
+	OdorikoBoots = new ItemOdorikoBoots(1098, clothArmor, renderclothArmor, 3).setUnlocalizedName("OdorikoBoots").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(OdorikoBoots, "Odoriko Sandals");
+		//Kenpou
+	KenpouHead = new ItemKenpouHead(1099, clothArmor, renderclothArmor, 0).setUnlocalizedName("KenpouHead").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(KenpouHead, "Kenpo Headband");
+	KenpouChest = new ItemKenpouChest(1100, clothArmor, renderclothArmor, 1).setUnlocalizedName("KenpouChest").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(KenpouChest, "Kenpo Smock");
+	KenpouBoots = new ItemKenpouBoots(1101, clothArmor, renderclothArmor, 3).setUnlocalizedName("KenpouBoots").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(KenpouBoots, "Kenpo Boots");
+		//Neko
+	Neko = new ItemNeko(1102, clothArmor, renderclothArmor, 0).setUnlocalizedName("Neko").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(Neko, "Cat Ears");
+		//Fantom
+	Fantom = new ItemFantom(1103, clothArmor, renderclothArmor, 0).setUnlocalizedName("Fantom").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(Fantom, "Fantom Mask");
+		//Cowboy
+	CowboyHead = new ItemCowboyHead(1104, clothArmor, renderclothArmor, 0).setUnlocalizedName("CowboyHead").setCreativeTab(this.ModernTab);
+	LanguageRegistry.addName(CowboyHead, "Apache Headband");
+	CowboyChest = new ItemCowboyChest(1105, clothArmor, renderclothArmor, 1).setUnlocalizedName("CowboyChest").setCreativeTab(this.ModernTab);
+	LanguageRegistry.addName(CowboyChest, "Sheriff Star");
+	CowboyLegs = new ItemCowboyLegs(1106, clothArmor, renderclothArmor, 2).setUnlocalizedName("CowboyLegs").setCreativeTab(this.ModernTab);
+	LanguageRegistry.addName(CowboyLegs, "Pistol Holster");
+	CowboyBoots = new ItemCowboyBoots(1107, clothArmor, renderclothArmor, 3).setUnlocalizedName("CowboyBoots").setCreativeTab(this.ModernTab);
+	LanguageRegistry.addName(CowboyBoots, "Cowboy Boots");
+		//Diamodo
+	DiamodoHead = new ItemDiamodoHead(1108, clothArmor, renderclothArmor, 0).setUnlocalizedName("DiamodoHead").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(DiamodoHead, "Wizard Hat");
+	DiamodoChest = new ItemDiamodoChest(1109, clothArmor, renderclothArmor, 1).setUnlocalizedName("DiamodoChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(DiamodoChest, "Wizard Robe");
+	DiamodoLegs = new ItemDiamodoLegs(1110, clothArmor, renderclothArmor, 2).setUnlocalizedName("DiamodoLegs").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(DiamodoLegs, "Magical Protecotor");
+	DiamodoBoots = new ItemDiamodoBoots(1111, clothArmor, renderclothArmor, 3).setUnlocalizedName("DiamodoBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(DiamodoBoots, "Wizard Boots");
+		//Roresia
+	RoresiaHead = new ItemRoresiaHead(1112, clothArmor, renderclothArmor, 0).setUnlocalizedName("RoresiaHead").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(RoresiaHead, "Pilot Cap");
+	RoresiaChest = new ItemRoresiaChest(1113, clothArmor, renderclothArmor, 1).setUnlocalizedName("RoresiaChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(RoresiaChest, "Technic Tunic");
+	RoresiaLegs = new ItemRoresiaLegs(1114, clothArmor, renderclothArmor, 2).setUnlocalizedName("RoresiaLegs").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(RoresiaLegs, "Utility Belt");
+	RoresiaBoots = new ItemRoresiaBoots(1115, clothArmor, renderclothArmor, 3).setUnlocalizedName("RoresiaBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(RoresiaBoots, "Solid Boots");
+		//DragonArmor
+	DragonArmor = new ItemDragonArmor(1116, clothArmor, renderclothArmor, 1).setUnlocalizedName("DragonArmor").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(DragonArmor, "Scales Armor");
+		//DragonRobe
+	DragonRobe = new ItemDragonRobe(1117, clothArmor, renderclothArmor, 1).setUnlocalizedName("DragonRobe").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(DragonRobe, "Sage Robe");
+		//Fusigi
+	Fusigi = new ItemFusigi(1118, clothArmor, renderclothArmor, 1).setUnlocalizedName("Fusigi").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(Fusigi, "Lord Coat");
+		//Honoo
+	Honoo = new ItemHonoo(1119, clothArmor, renderclothArmor, 1).setUnlocalizedName("Honoo").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(Honoo, "Officer Chestplate");
+		//Sinkan
+	SinkaHead = new ItemSinkaHead(1120, clothArmor, renderclothArmor, 0).setUnlocalizedName("SinkaHead").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(SinkaHead, "Bishop Hat");
+	SinkaChest = new ItemSinkaChest(1121, clothArmor, renderclothArmor, 1).setUnlocalizedName("SinkaChest").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(SinkaChest, "Bishop Robe");
+	SinkaBoots = new ItemSinkaBoots(1122, clothArmor, renderclothArmor, 3).setUnlocalizedName("SinkaBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(SinkaBoots, "Bishop Boots");
+		//Clown
+	ClownHead = new ItemClownHead(1123, clothArmor, renderclothArmor, 0).setUnlocalizedName("ClownHead").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(ClownHead, "Clown Cap");
+	ClownBoots = new ItemClownBoots(1124, clothArmor, renderclothArmor, 3).setUnlocalizedName("ClownBoots").setCreativeTab(this.FantasyTab);
+	LanguageRegistry.addName(ClownBoots, "Clown Boots");
+		//Seija
+	SeijiaHead = new ItemSeijiaHead(1125, clothArmor, renderclothArmor, 0).setUnlocalizedName("SeijiaHead").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(SeijiaHead, "Comfy Cap");
+	SeijiaChest = new ItemSeijiaChest(1126, clothArmor, renderclothArmor, 1).setUnlocalizedName("SeijiaChest").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(SeijiaChest, "Comfy Coat");
+	SeijiaLegs = new ItemSeijiaLegs(1127, clothArmor, renderclothArmor, 2).setUnlocalizedName("SeijiaLegs").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(SeijiaLegs, "Comfy Pants");
+	SeijiaBoots = new ItemSeijiaBoots(1128, clothArmor, renderclothArmor, 3).setUnlocalizedName("SeijiaBoots").setCreativeTab(this.JapanieseTab);
+	LanguageRegistry.addName(SeijiaBoots, "Comfy Boots");
+	
 	// Item registry
 	GameRegistry.registerItem(clothItem,"Cloth");
+	GameRegistry.registerItem(thickCloth,"ThickCloth");
+	GameRegistry.registerItem(upholster,"Upholster");
+	GameRegistry.registerItem(reinforcedCloth, "ReinforcedCloth");
+	GameRegistry.registerItem(clothStrip, "ClothStrip");
+	GameRegistry.registerItem(leatherStrip, "LeatherStrip");
 	
 	//Armor registry
+		//Keikogi
 	GameRegistry.registerItem(KeikogiBandana,"KeikogiBandna");
 	GameRegistry.registerItem(KeikogiJacket,"KeikogiJacket");
 	GameRegistry.registerItem(KeikogiLeggings,"KeikogiLeggings");
 	GameRegistry.registerItem(KeikogiSandals,"KeikogiSandals");
+		//Metal
 	GameRegistry.registerItem(MetalHelmet,"MetalHelmet");
 	GameRegistry.registerItem(MetalChest,"MetalChest");
 	GameRegistry.registerItem(MetalLegs,"MetalLegs");
 	GameRegistry.registerItem(MetalBoots,"MetalBoots");
+		//Bank
 	GameRegistry.registerItem(BankBowler,"BankBowler");
 	GameRegistry.registerItem(BankChest,"BankChest");
 	GameRegistry.registerItem(BankLegs,"BankLegs");
 	GameRegistry.registerItem(BankBoots,"BankBoots");
+		//Western
 	GameRegistry.registerItem(WesternHat,"WesternHat");
 	GameRegistry.registerItem(WesternCoat,"WesternCoat");
 	GameRegistry.registerItem(WesternLegs,"WesternLegs");
 	GameRegistry.registerItem(WesternBoots,"WesternBoots");
+		//Miner
+	GameRegistry.registerItem(MinerHelmet,"MinerHelmet");
+	GameRegistry.registerItem(MinerChest,"MinerChest");
+	GameRegistry.registerItem(MinerLegs,"MinerLegs");
+	GameRegistry.registerItem(MinerBoots,"MinerBoots");
+		//Crown
+	GameRegistry.registerItem(Crown, "Crown");
+		//Guran
+	GameRegistry.registerItem(GuranBandana, "GuranBandana");
+	GameRegistry.registerItem(GuranChest, "GuranChest");
+	GameRegistry.registerItem(GuranBoots, "GuranBoots");
+		//Buou
+	GameRegistry.registerItem(BuouHead, "BuouHead");
+	GameRegistry.registerItem(BuouChest, "BuouChest");
+	GameRegistry.registerItem(BuouLegs, "BuouLegs");
+	GameRegistry.registerItem(BuouBoots, "BuouBoots");
+		//Hagane
+	GameRegistry.registerItem(HagneHelmet, "HagneHelmet");
+	GameRegistry.registerItem(HagneChest, "HagneChest");
+	GameRegistry.registerItem(HagneLegs, "HagneLegs");
+	GameRegistry.registerItem(HagneBoots, "HagneBoots");
+		//Abunai
+	GameRegistry.registerItem(AbunaiBra, "AbunaiBra");
+	GameRegistry.registerItem(AbunaiPants, "AbunaiPants");
+		//Bani
+	GameRegistry.registerItem(BaniHead, "BaniHead");
+	GameRegistry.registerItem(BaniChest, "BaniChest");
+	GameRegistry.registerItem(BaniPants, "BaniPants");
+	GameRegistry.registerItem(BaniBoots, "BaniBoots");
+		//Star
+	GameRegistry.registerItem(StarHat, "StarHat");
+	GameRegistry.registerItem(StarChest, "StarChest");
+	GameRegistry.registerItem(StarLegs, "StarLegs");
+	GameRegistry.registerItem(StarBoots, "StarBoots");
+		//Budou
+	GameRegistry.registerItem(BudouHead, "BudouHead");
+	GameRegistry.registerItem(BudouChest, "BudouChest");
+	GameRegistry.registerItem(BudouLegs, "BudouLegs");
+	GameRegistry.registerItem(BudouBoots, "BudouBoots");
+		//Busin
+	GameRegistry.registerItem(BusinHead, "BusinHead");
+	GameRegistry.registerItem(BusinChest, "BusinChest");
+	GameRegistry.registerItem(BusinBoots, "BusinBoots");
+		//Dansa
+	GameRegistry.registerItem(DansaHead, "DansaHead");
+	GameRegistry.registerItem(DansaChest, "DansaChest");
+	GameRegistry.registerItem(DansaLegs, "DansaLegs");
+	GameRegistry.registerItem(DansaBoots, "DansaBoots");
+		//Kinobusi
+	GameRegistry.registerItem(KinoBousi, "KinoBousi");
+		//Kawa
+	GameRegistry.registerItem(KawaHead, "KawaHead");
+	GameRegistry.registerItem(KawaChest, "KawaChest");
+	GameRegistry.registerItem(KawaLegs, "KawaLegs");
+	GameRegistry.registerItem(KawaBoots, "KawaBoots");
+		//Tenku
+	GameRegistry.registerItem(TenkuHead, "TenkuHead");
+	GameRegistry.registerItem(TenkuChest, "TenkuChest");
+	GameRegistry.registerItem(TenkuLegs, "TenkuLegs");
+	GameRegistry.registerItem(TenkuBoots, "TenkuBoots");
+		//Puratina
+	GameRegistry.registerItem(PuratinaHead, "PuratinaHead");
+	GameRegistry.registerItem(PuratinaChest, "PuratinaChest");
+	GameRegistry.registerItem(PuratinaLegs, "PuratinaLegs");
+	GameRegistry.registerItem(PuratinaBoots, "PuratinaBoots");
+		//Old
+	GameRegistry.registerItem(OldHead, "OldHead");
+	GameRegistry.registerItem(OldChest, "OldChest");
+	GameRegistry.registerItem(OldLegs, "OldLegs");
+	GameRegistry.registerItem(OldBoots, "OldBoots");
+		//Sensi
+	GameRegistry.registerItem(SensiHead, "SensiHead");
+	GameRegistry.registerItem(SensiChest, "SensiChest");
+	GameRegistry.registerItem(SensiLegs, "SensiLegs");
+	GameRegistry.registerItem(SensiBoots, "SensiBoots");
+		//Odoriko
+	GameRegistry.registerItem(OdorikoHead, "OdorikoHead");
+	GameRegistry.registerItem(OdorikoChest, "OdorikoChest");
+	GameRegistry.registerItem(OdorikoLegs, "OdorikoLegs");
+	GameRegistry.registerItem(OdorikoBoots, "OdorikoBoots");
+		//Kenpou
+	GameRegistry.registerItem(KenpouHead, "KenpouHead");
+	GameRegistry.registerItem(KenpouChest, "KenpouChest");
+	GameRegistry.registerItem(KenpouBoots, "KenpouBoots");
+		//Neko
+	GameRegistry.registerItem(Neko, "Neko");
+		//Fantom
+	GameRegistry.registerItem(Fantom, "Fantom");
+		//Cowboy
+	GameRegistry.registerItem(CowboyHead, "CowboyHead");
+	GameRegistry.registerItem(CowboyChest, "CowboyChest");
+	GameRegistry.registerItem(CowboyLegs, "CowboyLegs");
+	GameRegistry.registerItem(CowboyBoots, "CowboyBoots");
+		//Diamodo
+	GameRegistry.registerItem(DiamodoHead, "DiamodoHead");
+	GameRegistry.registerItem(DiamodoChest, "DiamodoChest");
+	GameRegistry.registerItem(DiamodoLegs, "DiamodoLegs");
+	GameRegistry.registerItem(DiamodoBoots, "DiamodoBoots");
+		//Roresia
+	GameRegistry.registerItem(RoresiaHead, "RoresiaHead");
+	GameRegistry.registerItem(RoresiaChest, "RoresiaChest");
+	GameRegistry.registerItem(RoresiaLegs, "RoresiaLegs");
+	GameRegistry.registerItem(RoresiaBoots, "RoresiaBoots");
+		//DragonArmor
+	GameRegistry.registerItem(DragonArmor, "DragonArmor");
+		//DragonRobe
+	GameRegistry.registerItem(DragonRobe, "DragonRobe");
+		//Fusigi
+	GameRegistry.registerItem(Fusigi, "Fusigi");
+		//Honoo
+	GameRegistry.registerItem(Honoo, "Honoo");
+		//Sinka
+	GameRegistry.registerItem(SinkaHead, "SinkaHead");
+	GameRegistry.registerItem(SinkaChest, "SinkaChest");
+	GameRegistry.registerItem(SinkaBoots, "SinkaBoots");
+		//Clown
+	GameRegistry.registerItem(ClownHead, "ClownHead");
+	GameRegistry.registerItem(ClownBoots, "ClownBoots");
 	
 	//Item Recipes
-	GameRegistry.addRecipe(new ItemStack(clothItem, 4), new Object[]{"C", 'C', Block.cloth });
+	GameRegistry.addRecipe(new ItemStack(clothItem, 3), new Object[]{"C", 'C', Block.cloth });
+	GameRegistry.addRecipe(new ItemStack(clothItem), new Object[]{"SSS", 'S', Item.silk });
+	GameRegistry.addShapelessRecipe(new ItemStack(thickCloth, 1), new Object[]{clothItem, clothItem});
+	GameRegistry.addRecipe(new ItemStack(thickCloth), new Object[]{"SSS","SSS", 'S', Item.silk });
+	GameRegistry.addRecipe(new ItemStack(upholster, 2), new Object[]{"CLC", 'L', Item.leather, 'C', clothItem });
+	GameRegistry.addRecipe(new ItemStack(reinforcedCloth, 2), new Object[]{"CIC", 'I', Item.ingotIron, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(clothStrip, 3), new Object[]{"C", 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(leatherStrip, 3), new Object[]{"L", 'L', Item.leather});
 	
 	//Armor Recipes
+		//Keikogi
 	GameRegistry.addRecipe(new ItemStack(KeikogiBandana), new Object[]{"CCC", "C C", 'C', clothItem});
 	GameRegistry.addRecipe(new ItemStack(KeikogiJacket), new Object[]{"C C", "CCC", "CCC", 'C', clothItem});
 	GameRegistry.addRecipe(new ItemStack(KeikogiLeggings), new Object[]{"CCC", "C C", "C C", 'C', clothItem});
 	GameRegistry.addRecipe(new ItemStack(KeikogiSandals), new Object[]{"C C", "C C", 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(MetalHelmet), new Object[]{"III", "C C",'I',Item.ingotIron, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(MetalChest), new Object[]{"I I", "CIC","CCC", 'I',Item.ingotIron, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(MetalLegs), new Object[]{"III", "C C","C C", 'I',Item.ingotIron, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(MetalBoots), new Object[]{"C C", "I I", 'I',Item.ingotIron, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(BankBowler), new Object[]{"CCC", "G G", 'G',Item.ingotGold, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(BankChest), new Object[]{"G G", "CGC","CCC", 'G',Item.ingotGold, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(BankLegs), new Object[]{"CGC", "C C","C C", 'G',Item.ingotGold, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(BankBoots), new Object[]{"C C", "G G", 'G',Item.ingotGold, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(WesternHat), new Object[]{"CCC", "L L", 'L',Item.leather, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(WesternCoat), new Object[]{"L L", "CLC","CCC", 'L',Item.leather, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(WesternLegs), new Object[]{"CLC", "C C","C C", 'L',Item.leather, 'C', clothItem});
-	GameRegistry.addRecipe(new ItemStack(WesternBoots), new Object[]{"C C", "L L", 'L',Item.leather, 'C', clothItem});
-
+		//Metal
+	GameRegistry.addRecipe(new ItemStack(MetalHelmet), new Object[]{"RRR", "C C",'R',reinforcedCloth, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(MetalChest), new Object[]{"R R", "CRC","CCC", 'R',reinforcedCloth, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(MetalLegs), new Object[]{"RRR", "C C","C C", 'R',reinforcedCloth, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(MetalBoots), new Object[]{"C C", "R R", 'R',reinforcedCloth, 'C', clothItem});
+		//Bank
+	GameRegistry.addRecipe(new ItemStack(BankBowler), new Object[]{"CCC", "G G", 'G',Item.goldNugget, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(BankChest), new Object[]{"G G", "CGC","CCC", 'G',Item.goldNugget, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(BankLegs), new Object[]{"CGC", "C C","C C", 'G',Item.goldNugget, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(BankBoots), new Object[]{"C C", "G G", 'G',Item.goldNugget, 'C', clothItem});
+		//Western
+	GameRegistry.addRecipe(new ItemStack(WesternHat), new Object[]{"CCC", "U U", 'U',upholster, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(WesternCoat), new Object[]{"U U", "CUC","CCC", 'U',upholster, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(WesternLegs), new Object[]{"CUC", "C C","C C", 'U',upholster, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(WesternBoots), new Object[]{"C C", "U U", 'U',upholster, 'C', clothItem});
+		//Miner
+	GameRegistry.addRecipe(new ItemStack(MinerHelmet), new Object[]{"RHR", "T T", 'R',reinforcedCloth, 'H', Block.torchWood, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(MinerChest), new Object[]{"U U", "UTU","TTT", 'U',upholster, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(MinerLegs), new Object[]{"TTT", "T T","T T", 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(MinerBoots), new Object[]{"U U", "T T", 'U',upholster, 'T', thickCloth});
+		//Crown
+	GameRegistry.addRecipe(new ItemStack(Crown), new Object[]{"GEG", "CCC", 'C', clothItem, 'G', Item.goldNugget, 'E', Item.emerald});
+		//Guran
+	GameRegistry.addRecipe(new ItemStack(GuranBandana), new Object[]{"TCT", "C C", 'C', clothItem, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(GuranChest), new Object[]{"T T", "TCT","CCC", 'C', clothItem, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(GuranBoots), new Object[]{"C C", "T T", 'C', clothItem, 'T', thickCloth});
+		//Buou
+	GameRegistry.addRecipe(new ItemStack(BuouHead), new Object[]{"CRC", 'C', clothItem, 'R', reinforcedCloth});
+	GameRegistry.addRecipe(new ItemStack(BuouChest), new Object[]{"C C","CRC ","CRC", 'C', clothItem, 'R', reinforcedCloth});
+	GameRegistry.addRecipe(new ItemStack(BuouLegs), new Object[]{"CCC", "C C", "R R", 'C', clothItem, 'R', reinforcedCloth});
+	GameRegistry.addRecipe(new ItemStack(BuouBoots), new Object[]{"T T","R R", 'R', reinforcedCloth, 'T', thickCloth});
+		//Hagne
+	GameRegistry.addRecipe(new ItemStack(HagneHelmet), new Object[]{"RRR","R R", 'R', reinforcedCloth});
+	GameRegistry.addRecipe(new ItemStack(HagneChest), new Object[]{"R R","RRR","RRR", 'R', reinforcedCloth});
+	GameRegistry.addRecipe(new ItemStack(HagneLegs), new Object[]{"RRR","R R", "R R", 'R', reinforcedCloth});
+	GameRegistry.addRecipe(new ItemStack(HagneBoots), new Object[]{"R R","R R", 'R', reinforcedCloth});
+		//Abunai
+	GameRegistry.addRecipe(new ItemStack(AbunaiBra), new Object[]{"S S","CSC", 'C', clothItem, 'S', clothStrip});
+	GameRegistry.addRecipe(new ItemStack(AbunaiPants), new Object[]{"SCS","SCS", 'C', clothItem, 'S', clothStrip});
+		//Bani
+	GameRegistry.addRecipe(new ItemStack(BaniHead), new Object[]{"CSC","S S", 'C', clothItem, 'S', clothStrip});
+	GameRegistry.addRecipe(new ItemStack(BaniChest), new Object[]{"L L","LCL","SSS", 'C', clothItem, 'S', clothStrip,'L', leatherStrip});
+	GameRegistry.addRecipe(new ItemStack(BaniPants), new Object[]{"LCL","SCS", 'C', clothItem, 'S', clothStrip,'L', leatherStrip});
+	GameRegistry.addRecipe(new ItemStack(BaniBoots), new Object[]{"L L","C C", 'C', clothItem, 'L', leatherStrip});
+		//Star
+	GameRegistry.addRecipe(new ItemStack(StarHat), new Object[]{"TLT","C C", 'C', clothItem, 'L', leatherStrip, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(StarChest), new Object[]{"T T","TCT","TLT", 'C', clothItem, 'L', leatherStrip, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(StarLegs), new Object[]{"CLC","T T","C C", 'C', clothItem, 'L', leatherStrip, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(StarBoots), new Object[]{"L L","T T", 'L', leatherStrip, 'T', thickCloth});
+		//Budou
+	GameRegistry.addRecipe(new ItemStack(BudouHead), new Object[]{"CCC","S S", 'C', clothItem, 'S', clothStrip});
+	GameRegistry.addRecipe(new ItemStack(BudouChest), new Object[]{"C C","SCS","SSS", 'C', clothItem, 'S', clothStrip});
+	GameRegistry.addRecipe(new ItemStack(BudouLegs), new Object[]{"SSS","C C","S S", 'C', clothItem, 'S', clothStrip});
+	GameRegistry.addRecipe(new ItemStack(BudouBoots), new Object[]{"S S","S S", 'S', clothStrip});
+		//Busin
+	GameRegistry.addRecipe(new ItemStack(BusinHead), new Object[]{"SCS","S S", 'S', clothStrip, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(BusinChest), new Object[]{"C C","CCC","SSS", 'S', clothStrip, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(BusinBoots), new Object[]{"S S","C C", 'S', clothStrip, 'C', clothItem});
+		//Dansa
+	GameRegistry.addRecipe(new ItemStack(DansaHead), new Object[]{"SFS","S S", 'S', clothStrip, 'F', Item.feather});
+	GameRegistry.addRecipe(new ItemStack(DansaChest), new Object[]{"T T","TCT","SCS", 'S', clothStrip, 'T', thickCloth,'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(DansaLegs), new Object[]{"TST","C C","C C", 'S', clothStrip, 'T', thickCloth, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(DansaBoots), new Object[]{"T T","S S", 'S', clothStrip, 'T', thickCloth});
+		//Kinobsi
+	GameRegistry.addRecipe(new ItemStack(KinoBousi), new Object[]{"SSS","S S", 'S', clothStrip});
+		//Kawa
+	GameRegistry.addRecipe(new ItemStack(KawaHead), new Object[]{"UUU","L L", 'L', leatherStrip, 'U', upholster});
+	GameRegistry.addRecipe(new ItemStack(KawaChest), new Object[]{"L L","UUU","LUL", 'L', leatherStrip, 'U', upholster});
+	GameRegistry.addRecipe(new ItemStack(KawaLegs), new Object[]{"LLL","U U","L L", 'L', leatherStrip, 'U', upholster});
+	GameRegistry.addRecipe(new ItemStack(KawaBoots), new Object[]{"L L","U U", 'L', leatherStrip, 'U', upholster});
+		//Tenku
+	GameRegistry.addRecipe(new ItemStack(TenkuHead), new Object[]{"RGR","S S", 'R', reinforcedCloth, 'G', Item.goldNugget, 'S', clothStrip });
+	GameRegistry.addRecipe(new ItemStack(TenkuChest), new Object[]{"C C","CRC","CSC", 'R', reinforcedCloth, 'C', clothItem, 'S', clothStrip });
+	GameRegistry.addRecipe(new ItemStack(TenkuLegs), new Object[]{"CSC","C C","S S", 'R', reinforcedCloth, 'C', clothItem, 'S', clothStrip });
+	GameRegistry.addRecipe(new ItemStack(TenkuBoots), new Object[]{"C C","U U", 'U', upholster, 'C', clothItem});
+		//Puratina
+	GameRegistry.addRecipe(new ItemStack(PuratinaHead), new Object[]{"RGR", "R R", 'R', reinforcedCloth, 'G', Item.goldNugget});
+	GameRegistry.addRecipe(new ItemStack(PuratinaChest), new Object[]{"R R", "RGR", "RRR", 'R', reinforcedCloth, 'G', Item.goldNugget});
+	GameRegistry.addRecipe(new ItemStack(PuratinaLegs), new Object[]{"RGR", "R R", "R R", 'R', reinforcedCloth, 'G', Item.goldNugget});
+	GameRegistry.addRecipe(new ItemStack(PuratinaBoots), new Object[]{"G G","R R", 'R', reinforcedCloth, 'G', Item.goldNugget});
+		//Old
+	GameRegistry.addRecipe(new ItemStack(OldHead), new Object[]{"UUU", "U U", 'U', upholster});
+	GameRegistry.addRecipe(new ItemStack(OldChest), new Object[]{"U U", "UUU", "UUU", 'U', upholster});
+	GameRegistry.addRecipe(new ItemStack(OldLegs), new Object[]{"UUU", "U U", "U U", 'U', upholster});
+	GameRegistry.addRecipe(new ItemStack(OldBoots), new Object[]{"U U","U U", 'U', upholster});
+		//Sensi
+	GameRegistry.addRecipe(new ItemStack(SensiHead), new Object[]{"RRR","T T", 'R', reinforcedCloth, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(SensiChest), new Object[]{"T T","TRT", "TTT", 'R', reinforcedCloth, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(SensiLegs), new Object[]{"TTT","R R" ,"T T", 'R', reinforcedCloth, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(SensiBoots), new Object[]{"R R","T T", 'R', reinforcedCloth, 'T', thickCloth});
+		//Odoriko
+	GameRegistry.addRecipe(new ItemStack(OdorikoHead), new Object[]{"SGS","S S", 'S', clothStrip, 'G', Item.goldNugget});
+	GameRegistry.addRecipe(new ItemStack(OdorikoChest), new Object[]{"S S","SCS","SSS", 'S', clothStrip, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(OdorikoLegs), new Object[]{"SSS","C C","C C", 'S', clothStrip, 'C', clothItem});
+	GameRegistry.addRecipe(new ItemStack(OdorikoBoots), new Object[]{"S S","U U", 'S', clothStrip, 'U', upholster});
+		//Kenpou
+	GameRegistry.addRecipe(new ItemStack(KenpouHead), new Object[]{"SRS","C C", 'S', clothStrip, 'C', clothItem, 'R', reinforcedCloth});
+	GameRegistry.addRecipe(new ItemStack(KenpouChest), new Object[]{"S S","CRC","CCC", 'S', clothStrip, 'C', clothItem, 'R', reinforcedCloth});
+	GameRegistry.addRecipe(new ItemStack(KenpouBoots), new Object[]{"C C","S S", 'S', clothStrip, 'C', clothItem});
+		//Neko
+	GameRegistry.addRecipe(new ItemStack(Neko), new Object[]{"TST","S S", 'S', clothStrip, 'T', thickCloth});
+		//Fantom
+	GameRegistry.addRecipe(new ItemStack(Fantom), new Object[]{"CSC","S S", 'S', clothStrip, 'C', clothItem});
+		//Cowboy
+	GameRegistry.addRecipe(new ItemStack(CowboyHead), new Object[]{"SSF","S S", 'S', clothStrip, 'F', Item.feather});
+	GameRegistry.addRecipe(new ItemStack(CowboyChest), new Object[]{" G ","GGG", "G G", 'G', Item.goldNugget});
+	GameRegistry.addRecipe(new ItemStack(CowboyLegs), new Object[]{"ULU","L L","L L", 'L', leatherStrip, 'U', upholster});
+	GameRegistry.addRecipe(new ItemStack(CowboyBoots), new Object[]{"L L","G G", 'L', leatherStrip, 'G', Item.goldNugget});
+		//Diamodo
+	GameRegistry.addRecipe(new ItemStack(DiamodoHead), new Object[]{"STS","C C", 'S', clothStrip, 'C', clothItem, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(DiamodoChest), new Object[]{"T T","CCC", "SCS", 'S', clothStrip, 'C', clothItem, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(DiamodoLegs), new Object[]{"CTC","S S","S S", 'S', clothStrip, 'C', clothItem, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(DiamodoBoots), new Object[]{"S S","C T", 'S', clothStrip, 'C', clothItem, 'T', thickCloth});
+		//Roresia
+	GameRegistry.addRecipe(new ItemStack(RoresiaHead), new Object[]{"PSP","T T", 'S', clothStrip, 'P', Block.glass, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(RoresiaChest), new Object[]{"T T","CLC","LLL", 'L', leatherStrip, 'C', clothItem, 'T', thickCloth});
+	GameRegistry.addRecipe(new ItemStack(RoresiaLegs), new Object[]{"LLL", 'L', leatherStrip});
+	GameRegistry.addRecipe(new ItemStack(RoresiaBoots), new Object[]{"L L","C C","T T", 'L', leatherStrip, 'C', clothItem, 'T', thickCloth});
+		//DragonArmor
+	GameRegistry.addRecipe(new ItemStack(DragonArmor), new Object[]{"R R","TRT","TRT", 'R', reinforcedCloth, 'T', thickCloth});
+		//DragonRobe
+	GameRegistry.addRecipe(new ItemStack(DragonRobe), new Object[]{"C C","TCT","TCT", 'C', clothItem, 'T', thickCloth});
+		//Fusigi
+	GameRegistry.addRecipe(new ItemStack(Fusigi), new Object[]{"S S","TTT","TTT", 'S', clothStrip, 'T', thickCloth});
+		//Honoo
+	GameRegistry.addRecipe(new ItemStack(Honoo), new Object[]{"L L","RRR","RRR", 'L', leatherStrip, 'R', reinforcedCloth});
+		//Sinka 
+	GameRegistry.addRecipe(new ItemStack(SinkaHead), new Object[]{"TGT","T T", 'T', thickCloth, 'G', Item.goldNugget});
+	GameRegistry.addRecipe(new ItemStack(SinkaChest), new Object[]{"T T","TGT","TTT", 'T', thickCloth, 'G', Item.goldNugget});
+	GameRegistry.addRecipe(new ItemStack(SinkaBoots), new Object[]{"G G","T T", 'T', thickCloth, 'G', Item.goldNugget});
+		//Clown
+	GameRegistry.addRecipe(new ItemStack(ClownHead), new Object[]{"DDD","C C", 'C', clothItem, 'D', Item.dyePowder});
+	GameRegistry.addRecipe(new ItemStack(ClownBoots), new Object[]{"C C","D D", 'C', clothItem, 'D', Item.dyePowder});
 };
 	}
-
